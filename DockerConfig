@@ -1,0 +1,66 @@
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates
+sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+
+# Open the /etc/apt/sources.list.d/docker.list file , if the file doesn’t exist, create it.
+# Add the following
+deb https://apt.dockerproject.org/repo ubuntu-trusty main
+sudo apt-get update
+sudo apt-get purge lxc-docker
+apt-cache policy docker-engine
+
+sudo apt-get install linux-image-extra-$(uname -r)
+sudo apt-get install apparmor
+
+sudo apt-get install docker-engine
+sudo service docker start
+sudo service docker stop
+sudo docker run hello-world
+
+sudo groupadd docker
+sudo usermod -aG docker ang
+# restart OS
+docker run hello-world
+docker images
+
+# Run Container
+docker run -t -i ubuntu:14.04 /bin/bash
+
+# Get a new Image
+docker pull imagename
+docker pull username/imagename
+
+# Search Image
+docker search imageName
+
+# Build Own images
+# First create a container from the image
+# Install the required program
+docker commit -m "image version" -a "author name" \
+imageID username/imagename
+
+# Build Own images from Dockerfile
+FROM ubuntu:14.04
+MAINTAINER Ang <angtf@um.edu.my>
+
+docker build -t username/imagename .
+
+# Download image from dockerhub and upload to your hub
+docker tag imageID imagheusername/imagename
+docker login --username=dockerhubusername --email=emailaddress
+docker push username/imagename
+docker rmi -f imageID
+
+
+
+
+
+# Nova-Docker
+sudo apt-get update
+sudo apt-get install -y python-pip python-dev
+
+rm -rf /opt/stack/nova-docker
+sudo mkdir -p /opt/stack
+sudo git clone https://git.openstack.org/openstack/nova-docker /opt/stack/nova-docker
+cd /opt/stack/nova-docker
+sudo pip install .  
